@@ -4039,7 +4039,7 @@ class OutputMatrix(InteractiveScene):
         return matrices
 
 
-# wrong
+# done
 class Parallelizability(InteractiveScene):
     def construct(self):
         # Set up curves

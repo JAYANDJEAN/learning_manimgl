@@ -595,7 +595,7 @@ class IntroduceEmbeddingMatrix(InteractiveScene):
         self.play(ShowCreation(result_rect))
         self.wait()
 
-
+# wrong
 class Word2VecScene(InteractiveScene):
     default_frame_orientation = (-30, 70)
 

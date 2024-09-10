@@ -1,9 +1,9 @@
-from manimlib import *
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
-import torch
-import openai
-import sys
 import os
+import sys
+
+import openai
+import torch
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
@@ -369,68 +369,11 @@ class AnnotateNextWord(SimpleAutogregression):
         )
 
 
-class QuickerRegression(SimpleAutogregression):
-    skip_through = True
 
 
-class AutoregressionGPT3(SimpleAutogregression):
-    model = "gpt3"
 
 
-class QuickRegressionGPT3(SimpleAutogregression):
-    skip_through = True
-    model = "gpt3"
 
 
-class GPT3CleverestAutocomplete(QuickRegressionGPT3):
-    seed_text = "To date, the cleverest thinker of all time was"
-    n_predictions = 70
-
-    def construct(self):
-        # Test
-        text_mob, next_word_line, machine = self.init_text_and_machine()
-        for n in range(self.n_predictions):
-            text_mob = self.new_selection_cycle(
-                text_mob, next_word_line, machine,
-                skip_anims=(n > 2),
-            )
 
 
-class GPT3OnLearningSimpler(QuickRegressionGPT3):
-    seed_text = "The most effective way to learn computer science is"
-    text_corner = 3.5 * UP + 3 * LEFT
-    line_len = 35
-    font_size = 35
-    n_predictions = 300
-    time_per_prediction = 0.2
-    random_seed = 313
-
-    def construct(self):
-        # Test
-        cur_str = self.seed_text
-        text_mob = VGroup()
-        for n in range(self.n_predictions):
-            self.remove(text_mob)
-            words, probs = self.predict_next_token(cur_str)
-            probs = probs / probs.sum()
-            index = np.random.choice(np.arange(len(words)), p=probs)
-            new_word = words[index]
-            cur_str += new_word
-            text_mob = self.string_to_mob(cur_str)
-            text_mob[:len(self.seed_text.replace(" ", ""))].set_color(BLUE)
-            text_mob[new_word.strip()][-1].set_color(YELLOW)
-            if text_mob.get_bottom()[1] < -3:
-                text_mob.shift(5 * UP)
-                self.text_corner += 5 * UP
-            self.add(text_mob)
-            self.wait(self.time_per_prediction)
-
-
-class ModelTakingInTextWithSurroundingPieces(SimpleAutogregression):
-    def construct(self):
-        text_mob, next_word_line, machine = self.init_text_and_machine()
-
-
-class VariousInputsAndOutputs(InteractiveScene):
-    def construct(self):
-        pass
