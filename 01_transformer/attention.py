@@ -1,9 +1,7 @@
 from manimlib import *
 import sys
 import os
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from helpers import *
 from embedding import break_into_words, get_piece_rectangles
@@ -4080,7 +4078,7 @@ class Parallelizability(InteractiveScene):
         self.add(comp_syms, in_word, out_word)
 
         # GPU symbol
-        gpu = SVGMobject("gpu_large.svg")
+        gpu = SVGMobject("assets/gpu.svg")
         gpu.set_fill(GREY_B)
         gpu.set_width(1.5)
         gpu.next_to(comp_syms, UP)
