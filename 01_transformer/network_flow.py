@@ -1143,6 +1143,7 @@ class TextPassageIntro(InteractiveScene):
 
     def construct(self):
         # Read in passage
+        # todo
         passage_str = ("harry_potter_3.txt").read_text()
         passage_str = passage_str.replace("\n", "\n\\\\")
         passage = TexText(passage_str, alignment="", additional_preamble=R"\tiny")
@@ -1269,9 +1270,9 @@ class MoleExample1(HighLevelNetworkFlow):
 
         # Add mole assets
         images = Group(
-            ImageMobject("ShrewMole").set_height(1),
+            ImageMobject("assets/image.png").set_height(1),
             Tex(R"6.02 \times 10^{23}").set_color(TEAL),
-            ImageMobject("LipMole").set_height(1),
+            ImageMobject("assets/image.png").set_height(1),
         )
         braces = VGroup()
         mole_words = VGroup()

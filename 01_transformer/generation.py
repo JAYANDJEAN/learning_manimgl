@@ -9,6 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 from helpers import *
 
+
 @lru_cache(maxsize=1)
 def get_gpt2_tokenizer(model_name='gpt2'):
     return GPT2Tokenizer.from_pretrained(model_name)
@@ -424,9 +425,6 @@ class AnnotateNextWord(SimpleAutogregression):
         )
 
 
-
-
-
 class QuickRegressionGPT3(SimpleAutogregression):
     skip_through = True
     model = "gpt3"
@@ -495,9 +493,6 @@ class GPT3OnLearningSimpler(QuickRegressionGPT3):
                 self.add(dist, rect)
 
             self.wait(self.time_per_prediction)
-
-
-
 
 
 class ChatBotPrompt(SimpleAutogregression):
@@ -588,7 +583,6 @@ class ChatBotPrompt(SimpleAutogregression):
         return super().string_to_mob(text)
 
 
-
 class VoiceToTextExample(SimpleAutogregression):
     model_name = "voice-to-text"
 
@@ -641,7 +635,7 @@ class VoiceToTextExample(SimpleAutogregression):
         self.wait()
 
     def get_input(self) -> Mobject:
-        result = ImageMobject("AudioSnippet").set_width(3.75)
+        result = ImageMobject("assets/image.png").set_width(3.75)
         result.set_height(3, stretch=True)
         return result
 
@@ -651,88 +645,6 @@ class VoiceToTextExample(SimpleAutogregression):
             in audio and
             produce a transcript
         """, alignment="LEFT")
-
-
-class TextToVoiceExample(VoiceToTextExample):
-    model_name = "text-to-voice"
-
-    def get_input(self):
-        return Text("""
-            This sentence comes from
-            a model going the other
-            way around, producing
-            synthetic speech just
-            from text.
-        """, alignment="LEFT")
-
-    def get_output(self):
-        return super().get_input()
-
-
-class TextToImage(VoiceToTextExample):
-    model_name = "text-to-image"
-    prompt = """
-        1960s photograph of a cute fluffy blue wild pi
-        creature, a creature whose body is shaped like
-        the symbol π, who is foraging in its native territory,
-        staring back at the camera with an exotic scene
-        in the background.
-    """
-    image_name = "PiCreatureDalle3_5"
-
-    def get_clean_prompt(self):
-        return clean_text(self.prompt)
-
-    def get_input(self):
-        return get_paragraph(self.get_clean_prompt().split(" "), line_len=25)
-
-    def get_output(self):
-        return ImageMobject(self.image_name)
-
-    def generate_output(self):
-        # Test
-        self.prompt = """
-            1960s photograph of a cute fluffy blue wild pi
-            creature, a creature whose face bears a subtle resemblence
-            to the shape of the symbol π, who is foraging in its native
-            territory, staring back at the camera with an exotic scene
-            in the background.
-        """
-
-        self.prompt = "abstract depiction of furry fluffiness"
-
-        openai.api_key = os.getenv('OPENAI_KEY')
-        prompt = self.get_clean_prompt()
-
-        response = openai.Image.create(
-            model="dall-e-3",
-            prompt=prompt,
-            size="1024x1024",
-            quality="standard",
-            n=1,
-        )
-
-        image_url = response.data[0].url
-        print(prompt)
-        print(image_url)
-
-        response = openai.Image.create_variation(
-            image=open("/Users/grant/3Blue1Brown Dropbox/3Blue1Brown/assets/raster/PiCreatureDalle3_17.png", "rb"),
-            n=1,
-            size="1024x1024"
-        )
-
-
-class TranslationExample(VoiceToTextExample):
-    model_name = "machine translation"
-
-    def get_input(self):
-        return Text("Attention is all\nyou need")
-
-    def get_output(self):
-        return Group(Point(), *Text("注意力就是你所需要的一切"))
-
-
 
 
 class ManyParallelPredictions(SimpleAutogregression):

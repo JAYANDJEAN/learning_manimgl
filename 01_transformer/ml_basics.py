@@ -1177,7 +1177,7 @@ class ShowGPT3Numbers(InteractiveScene):
     def construct(self):
         # Title
         gpt3_label = Text("GPT-3", font="Consolas", font_size=72)
-        openai_logo = SVGMobject("OpenAI.svg")
+        openai_logo = SVGMobject("assets/gpu.svg")
         openai_logo.set_fill(WHITE)
         openai_logo.set_height(2.0 * gpt3_label.get_height())
         title = VGroup(openai_logo, gpt3_label)
